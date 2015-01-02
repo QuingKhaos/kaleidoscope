@@ -1,6 +1,8 @@
 Kaleidoscope language and compiler
 ==================================
 
+[![Build Status](https://travis-ci.org/patkar/kaleidoscope.svg?branch=master)](https://travis-ci.org/patkar/kaleidoscope)
+
 This is my work on the Kaleidoscope language and compiler based on the
 [Kaleidoscope LLVM Tutorial](http://llvm.org/docs/tutorial/LangImpl1.html) and inspired by the
 [tutorial from Loren Segal](http://gnuu.org/2009/09/18/writing-your-own-toy-compiler/). Since the Kaleidoscope LLVM

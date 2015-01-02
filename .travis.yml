@@ -1,0 +1,13 @@
+language: cpp
+compiler:
+  - clang
+before_install:
+  - wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -
+  - echo "deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.5 main" | sudo tee -a /etc/apt/sources.list
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -qq
+  - sudo apt-get install -y llvm-3.5 llvm-3.5-dev llvm-3.5-runtime libllvm3.5 libstdc++6 unzip
+  - cd ~ && wget https://googletest.googlecode.com/files/gtest-1.7.0.zip && unzip gtest-1.7.0.zip
+  - cd ~/gtest-1.7.0 && cmake . && make
+  - cd $TRAVIS_BUILD_DIR
+script: cmake . -DGTEST_ROOT=~/gtest-1.7.0 && make && make test
