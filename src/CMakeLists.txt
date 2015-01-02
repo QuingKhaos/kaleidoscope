@@ -16,12 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 2.8.4)
-project(kaleidoscope)
+set(SOURCE_FILES
+    ${PROJECT_SOURCE_DIR}/src/lexer.cpp
+    PARENT_SCOPE
+)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
-add_subdirectory(src)
-
-enable_testing()
-add_subdirectory(test)
+add_executable(kaleidoscope main.cpp ${SOURCE_FILES})

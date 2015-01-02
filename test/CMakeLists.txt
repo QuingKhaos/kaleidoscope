@@ -16,12 +16,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 2.8.4)
-project(kaleidoscope)
+find_package(GTest REQUIRED)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+include_directories(${PROJECT_SOURCE_DIR}/src ${GTEST_INCLUDE_DIRS})
 
-add_subdirectory(src)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-enable_testing()
-add_subdirectory(test)
+set(TEST_FILES
+    ${PROJECT_SOURCE_DIR}/test/lexer-test.cpp
+)
+
+add_executable(kaleidoscope-test ${SOURCE_FILES} ${TEST_FILES})
+target_link_libraries(kaleidoscope-test ${GTEST_BOTH_LIBRARIES})
+
+GTEST_ADD_TESTS(kaleidoscope-test "" ${TEST_FILES})
