@@ -17,6 +17,13 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 set(SOURCE_FILES
+    ${PROJECT_SOURCE_DIR}/src/ast/binary.h
+    ${PROJECT_SOURCE_DIR}/src/ast/call.h
+    ${PROJECT_SOURCE_DIR}/src/ast/expression.h
+    ${PROJECT_SOURCE_DIR}/src/ast/function.h
+    ${PROJECT_SOURCE_DIR}/src/ast/number.h
+    ${PROJECT_SOURCE_DIR}/src/ast/prototype.h
+    ${PROJECT_SOURCE_DIR}/src/ast/variable.h
     ${PROJECT_SOURCE_DIR}/src/lexer.cpp
     PARENT_SCOPE
 )
