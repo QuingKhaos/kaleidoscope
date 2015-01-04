@@ -27,7 +27,9 @@
 class VariableExpressionAST : public ExpressionAST {
     std::string const name;
 public:
-    VariableExpressionAST(std::string const& name) : name(name) {}
+    VariableExpressionAST(std::string const& name) : name(name) { }
+
+    std::string const& getName() const { return name; }
 };
 
 #endif

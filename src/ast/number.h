@@ -26,7 +26,9 @@
 class NumberExpressionAST : public ExpressionAST {
     double const value;
 public:
-    NumberExpressionAST(double const value) : value(value) {}
+    NumberExpressionAST(double const value) : value(value) { }
+
+    double const getValue() const { return value; }
 };
 
 #endif

@@ -17,6 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdio.h>
 #include <string>
 #include <vector>
 #include "ast/binary.h"
@@ -26,11 +27,17 @@
 #include "ast/variable.h"
 #include "gtest/gtest.h"
 
+#pragma clang diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
 TEST(ASTTest, BinaryConstruction) {
     char op = '+';
     ExpressionAST lhs, rhs;
 
     BinaryExpressionAST binary(op, &lhs, &rhs);
+    EXPECT_EQ(op, binary.getOp());
+    EXPECT_EQ(&lhs, binary.getLHS());
+    EXPECT_EQ(&rhs, binary.getRHS());
 }
 
 TEST(ASTTest, CallConstruction) {
@@ -41,6 +48,12 @@ TEST(ASTTest, CallConstruction) {
     args.push_back(&arg);
 
     CallExpressionAST call(callee, args);
+
+    EXPECT_EQ(callee, call.getCallee());
+    EXPECT_STREQ(callee.c_str(), call.getCallee().c_str());
+
+    EXPECT_EQ(args, call.getArgs());
+    EXPECT_EQ(&arg, call.getArgs().at(0));
 }
 
 TEST(ASTTest, PrototypeAndFunctionConstruction) {
@@ -51,19 +64,32 @@ TEST(ASTTest, PrototypeAndFunctionConstruction) {
     args.push_back(arg);
 
     PrototypeAST prototype(name, args);
+
+    EXPECT_EQ(name, prototype.getName());
+    EXPECT_STREQ(name.c_str(), prototype.getName().c_str());
+
+    EXPECT_EQ(args, prototype.getArgs());
+    EXPECT_EQ(arg, prototype.getArgs().at(0));
+    EXPECT_STREQ(arg.c_str(), prototype.getArgs().at(0).c_str());
+
     ExpressionAST body;
 
     FunctionAST function(&prototype, &body);
+    EXPECT_EQ(&prototype, function.getPrototype());
+    EXPECT_EQ(&body, function.getBody());
 }
 
 TEST(ASTTest, NumberConstruction) {
     double value = 1.2;
 
     NumberExpressionAST number(value);
+    EXPECT_DOUBLE_EQ(value, number.getValue());
 }
 
 TEST(ASTTest, VariableConstruction) {
     std::string name("foo");
 
     VariableExpressionAST variable(name);
+    EXPECT_EQ(name, variable.getName());
+    EXPECT_STREQ(name.c_str(), variable.getName().c_str());
 }

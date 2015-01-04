@@ -29,7 +29,11 @@ class BinaryExpressionAST : public ExpressionAST {
     ExpressionAST const* const rhs;
 public:
     BinaryExpressionAST(char op, ExpressionAST const* const lhs, ExpressionAST const* const rhs)
-            : op(op), lhs(lhs), rhs(rhs) {}
+            : op(op), lhs(lhs), rhs(rhs) { }
+
+    char const getOp() const { return op; }
+    ExpressionAST const* const getLHS() const { return lhs; }
+    ExpressionAST const* const getRHS() const { return rhs; }
 };
 
 #endif

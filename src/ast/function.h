@@ -29,7 +29,10 @@ class FunctionAST {
     ExpressionAST const* const body;
 public:
     FunctionAST(PrototypeAST const* const prototype, ExpressionAST const* const body)
-            : prototype(prototype), body(body) {}
+            : prototype(prototype), body(body) { }
+
+    PrototypeAST const* const getPrototype() const { return prototype; }
+    ExpressionAST const* const getBody() const { return body; }
 };
 
 #endif

@@ -30,7 +30,10 @@ class CallExpressionAST : public ExpressionAST {
     std::vector<ExpressionAST*> const args;
 public:
     CallExpressionAST(std::string const& callee, std::vector<ExpressionAST*> const& args)
-            : callee(callee), args(args) {}
+            : callee(callee), args(args) { }
+
+    std::string const& getCallee() const { return callee; }
+    std::vector<ExpressionAST*> const& getArgs() const { return args; }
 };
 
 #endif
