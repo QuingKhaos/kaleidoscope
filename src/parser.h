@@ -20,6 +20,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include <map>
 #include "ast/expression.h"
 #include "ast/function.h"
 #include "ast/number.h"
@@ -44,6 +45,13 @@ public:
     ExpressionAST const* parseParenthesisExpression();
     ExpressionAST const* parseIdentifierExpression();
     ExpressionAST const* parsePrimary();
+
+    /// This holds the precedence for each binary operator that is defined
+    std::map<char, int> binaryOpPrecedence;
+    int const getTokenPrecedence();
+
+    ExpressionAST const* parseExpression();
+    ExpressionAST const* parseBinaryOpRHS(int expressionPrecedence, ExpressionAST const* lhs);
 };
 
 #endif

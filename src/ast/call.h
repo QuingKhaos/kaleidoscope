@@ -27,13 +27,14 @@
 // CallExpressionAST - Expression class for function calls.
 class CallExpressionAST : public ExpressionAST {
     std::string const callee;
-    std::vector<ExpressionAST*> const args;
+    std::vector<ExpressionAST const*> const args;
 public:
-    CallExpressionAST(std::string const& callee, std::vector<ExpressionAST*> const& args)
+    CallExpressionAST(std::string const& callee, std::vector<ExpressionAST const*> const& args)
             : callee(callee), args(args) { }
 
     std::string const& getCallee() const { return callee; }
-    std::vector<ExpressionAST*> const& getArgs() const { return args; }
+
+    std::vector<ExpressionAST const*> const& getArgs() const { return args; }
 };
 
 #endif

@@ -42,7 +42,7 @@ TEST(ASTTest, BinaryConstruction) {
 
 TEST(ASTTest, CallConstruction) {
     std::string callee("foo");
-    std::vector<ExpressionAST*> args;
+    std::vector<ExpressionAST const*> args;
 
     ExpressionAST arg;
     args.push_back(&arg);
