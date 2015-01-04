@@ -1,5 +1,3 @@
-#include <ast/expression.h>
-
 /*
  * Kaleidoscope language and compiler
  *
@@ -251,4 +249,54 @@ FunctionAST const* Parser::parseTopLevelExpression() {
     // Make an anonymous prototype
     PrototypeAST const* prototype = new PrototypeAST("", std::vector<std::string>());
     return new FunctionAST(prototype, expression);
+}
+
+void Parser::handleDefinition() {
+    if (parseDefinition()) {
+        std::cerr << "Parsed a function definition." << std::endl;
+    } else {
+        // Skip token for error recovery.
+        getNextToken();
+    }
+}
+
+void Parser::handleExtern() {
+    if (parseExtern()) {
+        std::cerr << "Parsed an extern." << std::endl;
+    } else {
+        // Skip token for error recovery.
+        getNextToken();
+    }
+}
+
+void Parser::handleTopLevelExpression() {
+    if (parseTopLevelExpression()) {
+        std::cerr << "Parsed a a top-level expression." << std::endl;
+    } else {
+        // Skip token for error recovery.
+        getNextToken();
+    }
+}
+
+void Parser::parse() {
+    while (1) {
+        std::cerr << "ready> ";
+
+        switch (currentToken) {
+            case TokenEOF:
+                return;
+            case ';':
+                getNextToken();
+                break;
+            case TokenDef:
+                handleDefinition();
+                break;
+            case TokenExtern:
+                handleExtern();
+                break;
+            default:
+                handleTopLevelExpression();
+                break;
+        }
+    }
 }

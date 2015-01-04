@@ -16,19 +16,21 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-find_package(GTest REQUIRED)
+find_package(GTest)
 
-include_directories(${PROJECT_SOURCE_DIR}/src ${GTEST_INCLUDE_DIRS})
+if(GTEST_FOUND)
+    include_directories(${PROJECT_SOURCE_DIR}/src ${GTEST_INCLUDE_DIRS})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-set(TEST_FILES
-    ${PROJECT_SOURCE_DIR}/test/ast-test.cpp
-    ${PROJECT_SOURCE_DIR}/test/lexer-test.cpp
-    ${PROJECT_SOURCE_DIR}/test/parser-test.cpp
-)
+    set(TEST_FILES
+        ${PROJECT_SOURCE_DIR}/test/ast-test.cpp
+        ${PROJECT_SOURCE_DIR}/test/lexer-test.cpp
+        ${PROJECT_SOURCE_DIR}/test/parser-test.cpp
+    )
 
-add_executable(kaleidoscope-test ${SOURCE_FILES} ${TEST_FILES})
-target_link_libraries(kaleidoscope-test ${GTEST_BOTH_LIBRARIES})
+    add_executable(kaleidoscope-test ${SOURCE_TEST_FILES} ${TEST_FILES})
+    target_link_libraries(kaleidoscope-test ${GTEST_BOTH_LIBRARIES})
 
-GTEST_ADD_TESTS(kaleidoscope-test "" ${TEST_FILES})
+    GTEST_ADD_TESTS(kaleidoscope-test "" ${TEST_FILES})
+endif()

@@ -57,6 +57,11 @@ public:
     FunctionAST const* parseDefinition();
     PrototypeAST const* parseExtern();
     FunctionAST const* parseTopLevelExpression();
+
+    void handleDefinition();
+    void handleExtern();
+    void handleTopLevelExpression();
+    void parse();
 };
 
 #endif

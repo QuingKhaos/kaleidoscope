@@ -45,7 +45,8 @@ protected:
 
 public:
     Lexer() { }
-    Lexer(std::istream* const inputStream) :
+
+    Lexer(std::istream* inputStream) :
             inputStream(inputStream) { }
 
     virtual int const getToken();

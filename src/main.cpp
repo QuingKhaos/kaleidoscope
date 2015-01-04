@@ -17,6 +17,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
+#include "lexer.h"
+#include "parser.h"
+
 int main() {
+    Lexer lexer(&std::cin);
+    Parser parser(&lexer);
+
+    parser.binaryOpPrecedence['<'] = 10;
+    parser.binaryOpPrecedence['+'] = 20;
+    parser.binaryOpPrecedence['-'] = 20;
+    parser.binaryOpPrecedence['*'] = 40;
+
+    std::cerr << "ready> ";
+    parser.getNextToken();
+
+    parser.parse();
+
     return 0;
 }

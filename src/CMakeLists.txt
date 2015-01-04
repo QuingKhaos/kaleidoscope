@@ -26,7 +26,8 @@ set(SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/ast/variable.h
     ${PROJECT_SOURCE_DIR}/src/lexer.cpp
     ${PROJECT_SOURCE_DIR}/src/parser.cpp
-    PARENT_SCOPE
 )
+
+set(SOURCE_TEST_FILES ${SOURCE_FILES} PARENT_SCOPE)
 
 add_executable(kaleidoscope main.cpp ${SOURCE_FILES})
