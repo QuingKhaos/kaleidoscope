@@ -25,6 +25,7 @@ set(SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/ast/prototype.h
     ${PROJECT_SOURCE_DIR}/src/ast/variable.h
     ${PROJECT_SOURCE_DIR}/src/lexer.cpp
+    ${PROJECT_SOURCE_DIR}/src/parser.cpp
     PARENT_SCOPE
 )
 

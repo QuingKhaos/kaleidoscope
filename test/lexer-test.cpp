@@ -21,30 +21,33 @@
 #include "lexer.h"
 #include "gtest/gtest.h"
 
+#pragma clang diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
 TEST(LexerTest, EndOfFile) {
     std::istringstream input;
-    Lexer lexer(input);
+    Lexer lexer(&input);
 
     EXPECT_EQ(TokenEOF, lexer.getToken());
 }
 
 TEST(LexerTest, FunctionDefine) {
     std::istringstream input("def");
-    Lexer lexer(input);
+    Lexer lexer(&input);
 
     EXPECT_EQ(TokenDef, lexer.getToken());
 }
 
 TEST(LexerTest, FunctionExtern) {
     std::istringstream input("extern");
-    Lexer lexer(input);
+    Lexer lexer(&input);
 
     EXPECT_EQ(TokenExtern, lexer.getToken());
 }
 
 TEST(LexerTest, Identifier) {
     std::istringstream input("foo");
-    Lexer lexer(input);
+    Lexer lexer(&input);
 
     EXPECT_EQ(TokenIdentifier, lexer.getToken());
     EXPECT_EQ("foo", lexer.getIdentifier());
@@ -52,7 +55,7 @@ TEST(LexerTest, Identifier) {
 
 TEST(LexerTest, Number) {
     std::istringstream input("1.2");
-    Lexer lexer(input);
+    Lexer lexer(&input);
 
     EXPECT_EQ(TokenNumber, lexer.getToken());
     EXPECT_EQ(1.2, lexer.getNumberValue());

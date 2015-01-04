@@ -17,40 +17,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LEXER_H
-#define LEXER_H
-
-#include <iostream>
 #include <string>
+#include "lexer.h"
+#include "parser.h"
+#include "gtest/gtest.h"
 
-// The lexer returns tokens [0-255] if it is an unknown character, otherwise one
-// of these for known things.
-enum Token {
-    TokenEOF = -1,
-
-    // commands
-            TokenDef = -2, TokenExtern = -3,
-
-    // primary
-            TokenIdentifier = -4, TokenNumber = -5,
-};
-
-class Lexer {
-    std::istream* inputStream;
-    int lastChar = ' ';
-
-protected:
-    std::string identifier; // Filled in if TokenIdentifier
-    double numberValue;     // Filled in if TokenNumber
-
+class DummyLexer : public Lexer {
+    int const token;
 public:
-    Lexer() { }
-    Lexer(std::istream* const inputStream) :
-            inputStream(inputStream) { }
+    DummyLexer(int token) : token(token) { }
 
-    virtual int const getToken();
-    std::string getIdentifier();
-    double getNumberValue();
+    int const getToken() {
+        return token;
+    }
 };
 
-#endif
+#pragma clang diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
+TEST(ParserTest, NextToken) {
+    DummyLexer lexer(TokenDef);
+
+    Parser parser(&lexer);
+    EXPECT_EQ(TokenDef, parser.getNextToken());
+}

@@ -19,19 +19,14 @@
 
 #include "lexer.h"
 
-Lexer::Lexer(std::istream &inputStream) :
-        inputStream(inputStream) {
-
-}
-
-int Lexer::getToken() {
+int const Lexer::getToken() {
     // Skip any whitespace.
     while (isspace(lastChar))
-        lastChar = (int) inputStream.get();
+        lastChar = (int) inputStream->get();
 
     if (isalpha(lastChar)) { // identifier: [a-zA-Z][a-zA-Z0-9]*
         identifier = lastChar;
-        while (isalnum((lastChar = (int) inputStream.get())))
+        while (isalnum((lastChar = (int) inputStream->get())))
             identifier += lastChar;
 
         if (identifier == "def") return TokenDef;
@@ -43,7 +38,7 @@ int Lexer::getToken() {
         std::string number;
         do {
             number += lastChar;
-            lastChar = (int) inputStream.get();
+            lastChar = (int) inputStream->get();
         } while (isdigit(lastChar) || lastChar == '.');
 
         numberValue = strtod(number.c_str(), 0);
@@ -52,7 +47,7 @@ int Lexer::getToken() {
 
     if (lastChar == '#') {
         // Comment until end of line.
-        do lastChar = (int) inputStream.get();
+        do lastChar = (int) inputStream->get();
         while (lastChar != EOF && lastChar != '\n' && lastChar != '\r');
 
         if (lastChar != EOF)
@@ -65,7 +60,7 @@ int Lexer::getToken() {
 
     // Otherwise, just return the character as its ascii value.
     int thisChar = lastChar;
-    lastChar = (int) inputStream.get();
+    lastChar = (int) inputStream->get();
     return thisChar;
 }
 

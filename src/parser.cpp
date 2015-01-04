@@ -1,3 +1,5 @@
+#include <ast/expression.h>
+
 /*
  * Kaleidoscope language and compiler
  *
@@ -17,40 +19,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LEXER_H
-#define LEXER_H
-
 #include <iostream>
-#include <string>
+#include "parser.h"
 
-// The lexer returns tokens [0-255] if it is an unknown character, otherwise one
-// of these for known things.
-enum Token {
-    TokenEOF = -1,
+ExpressionAST const* const Parser::error(char const* const str) const {
+    std::cerr << "Error:" << str << std::endl;
+    return nullptr;
+}
 
-    // commands
-            TokenDef = -2, TokenExtern = -3,
+PrototypeAST const* const Parser::errorPrototype(char const* const str) const {
+    error(str);
+    return nullptr;
+}
 
-    // primary
-            TokenIdentifier = -4, TokenNumber = -5,
-};
-
-class Lexer {
-    std::istream* inputStream;
-    int lastChar = ' ';
-
-protected:
-    std::string identifier; // Filled in if TokenIdentifier
-    double numberValue;     // Filled in if TokenNumber
-
-public:
-    Lexer() { }
-    Lexer(std::istream* const inputStream) :
-            inputStream(inputStream) { }
-
-    virtual int const getToken();
-    std::string getIdentifier();
-    double getNumberValue();
-};
-
-#endif
+FunctionAST const* const Parser::errorFunction(char const* const str) const {
+    error(str);
+    return nullptr;
+}

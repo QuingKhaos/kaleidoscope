@@ -25,6 +25,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 set(TEST_FILES
     ${PROJECT_SOURCE_DIR}/test/ast-test.cpp
     ${PROJECT_SOURCE_DIR}/test/lexer-test.cpp
+    ${PROJECT_SOURCE_DIR}/test/parser-test.cpp
 )
 
 add_executable(kaleidoscope-test ${SOURCE_FILES} ${TEST_FILES})

@@ -17,40 +17,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LEXER_H
-#define LEXER_H
+#ifndef PARSER_H
+#define PARSER_H
 
-#include <iostream>
-#include <string>
+#include "ast/expression.h"
+#include "ast/function.h"
+#include "ast/prototype.h"
+#include "lexer.h"
 
-// The lexer returns tokens [0-255] if it is an unknown character, otherwise one
-// of these for known things.
-enum Token {
-    TokenEOF = -1,
-
-    // commands
-            TokenDef = -2, TokenExtern = -3,
-
-    // primary
-            TokenIdentifier = -4, TokenNumber = -5,
-};
-
-class Lexer {
-    std::istream* inputStream;
-    int lastChar = ' ';
+class Parser {
+    int currentToken;
+    Lexer* const lexer;
 
 protected:
-    std::string identifier; // Filled in if TokenIdentifier
-    double numberValue;     // Filled in if TokenNumber
+    ExpressionAST const* const error(char const* const str) const;
+    PrototypeAST const* const errorPrototype(char const* const str) const;
+    FunctionAST const* const errorFunction(char const* const str) const;
 
 public:
-    Lexer() { }
-    Lexer(std::istream* const inputStream) :
-            inputStream(inputStream) { }
+    Parser(Lexer* const lexer) : lexer(lexer) { }
 
-    virtual int const getToken();
-    std::string getIdentifier();
-    double getNumberValue();
+    int const getNextToken() { return currentToken = lexer->getToken(); }
 };
 
 #endif
