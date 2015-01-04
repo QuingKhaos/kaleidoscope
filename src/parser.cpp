@@ -19,7 +19,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <iostream>
+#include <string>
+#include <vector>
+#include "ast/call.h"
+#include "ast/variable.h"
 #include "parser.h"
 
 ExpressionAST const* const Parser::error(char const* const str) const {
@@ -35,4 +38,90 @@ PrototypeAST const* const Parser::errorPrototype(char const* const str) const {
 FunctionAST const* const Parser::errorFunction(char const* const str) const {
     error(str);
     return nullptr;
+}
+
+/// numberexpression ::= number
+NumberExpressionAST const* Parser::parseNumberExpression() {
+    NumberExpressionAST const* result = new NumberExpressionAST(lexer->getNumberValue());
+
+    getNextToken(); // consume the number
+    return result;
+}
+
+/// parenthesisexpression ::= '(' expression ')'
+ExpressionAST const* Parser::parseParenthesisExpression() {
+    getNextToken(); // eat (
+
+    ExpressionAST const* value = parseExpression();
+    if (!value) {
+        return nullptr;
+    }
+
+    if (currentToken != ')') {
+        return error("exprected ')'");
+    }
+
+    getNextToken(); // eat )
+    return value;
+}
+
+/// identifierexpression
+///   ::= identifier
+///   ::= identifier '(' expression* ')'
+ExpressionAST const* Parser::parseIdentifierExpression() {
+    std::string identifierName = lexer->getIdentifier();
+
+    getNextToken(); // eat identifier
+
+    // Simple variable reference
+    if (currentToken != '(') {
+        return new VariableExpressionAST(identifierName);
+    }
+
+    // Call
+    getNextToken(); // eat (
+    std::vector<ExpressionAST*> args;
+
+    if (currentToken != ')') {
+        while (1) {
+            ExpressionAST* arg = parseExpression();
+
+            if (!arg) {
+                return nullptr;
+            }
+            args.push_back(arg);
+
+            if (currentToken == ')') {
+                break;
+            }
+
+            if (currentToken != ',') {
+                return error("Expected ')' or ',' in argument list");
+            }
+
+            getNextToken();
+        }
+    }
+
+    // Eat the )
+    getNextToken();
+
+    return new CallExpressionAST(identifierName, args);
+}
+
+/// primary
+///   ::= identifierexpression
+///   ::= numberexprexpression
+///   ::= parenthesisexpression
+ExpressionAST const* Parser::parsePrimary() {
+    switch (currentToken) {
+        case TokenIdentifier:
+            return parseIdentifierExpression();
+        case TokenNumber:
+            return parseNumberExpression();
+        case '(':
+            return parseParenthesisExpression();
+        default:
+            return error("unknown token when expecting an expression");
+    }
 }

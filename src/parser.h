@@ -22,6 +22,7 @@
 
 #include "ast/expression.h"
 #include "ast/function.h"
+#include "ast/number.h"
 #include "ast/prototype.h"
 #include "lexer.h"
 
@@ -38,6 +39,11 @@ public:
     Parser(Lexer* const lexer) : lexer(lexer) { }
 
     int const getNextToken() { return currentToken = lexer->getToken(); }
+
+    NumberExpressionAST const* parseNumberExpression();
+    ExpressionAST const* parseParenthesisExpression();
+    ExpressionAST const* parseIdentifierExpression();
+    ExpressionAST const* parsePrimary();
 };
 
 #endif

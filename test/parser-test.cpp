@@ -27,6 +27,9 @@ class DummyLexer : public Lexer {
 public:
     DummyLexer(int token) : token(token) { }
 
+    DummyLexer(double value)
+            : token(TokenNumber) { this->numberValue = value; }
+
     int const getToken() {
         return token;
     }
@@ -40,4 +43,13 @@ TEST(ParserTest, NextToken) {
 
     Parser parser(&lexer);
     EXPECT_EQ(TokenDef, parser.getNextToken());
+}
+
+TEST(ParserTest, ParseNumber) {
+    DummyLexer lexer(1.2);
+
+    Parser parser(&lexer);
+    parser.getNextToken();
+
+    EXPECT_DOUBLE_EQ(1.2, parser.parseNumberExpression()->getValue());
 }
