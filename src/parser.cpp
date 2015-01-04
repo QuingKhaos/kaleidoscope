@@ -187,3 +187,68 @@ ExpressionAST const* Parser::parseBinaryOpRHS(int expressionPrecedence, Expressi
         lhs = new BinaryExpressionAST((char) binaryOp, lhs, rhs);
     }
 }
+
+/// prototype
+///   ::= id '(' id* ')'
+PrototypeAST const* Parser::parsePrototype() {
+    if (currentToken != TokenIdentifier) {
+        return errorPrototype("Expected function name in prototype");
+    }
+
+    std::string const functionName = lexer->getIdentifier();
+    getNextToken();
+
+    if (currentToken != '(') {
+        return errorPrototype("Expected '(' in prototype");
+    }
+
+    // Read the list of argument names.
+    std::vector<std::string> argNames;
+    while (getNextToken() == TokenIdentifier) {
+        argNames.push_back(lexer->getIdentifier());
+    }
+
+    if (currentToken != ')') {
+        return errorPrototype("Expected ')' in prototype");
+    }
+
+    getNextToken(); // eat )
+
+    return new PrototypeAST(functionName, argNames);
+}
+
+/// definition ::= 'def' prototype expression
+FunctionAST const* Parser::parseDefinition() {
+    getNextToken(); // eat def
+
+    PrototypeAST const* prototype = parsePrototype();
+    if (!prototype) {
+        return nullptr;
+    }
+
+    ExpressionAST const* expression = parseExpression();
+    if (!expression) {
+        return nullptr;
+    }
+
+    return new FunctionAST(prototype, expression);
+}
+
+/// external ::= 'extern' prototype
+PrototypeAST const* Parser::parseExtern() {
+    getNextToken(); // eat extern
+
+    return parsePrototype();
+}
+
+/// toplevelexpression ::= expression
+FunctionAST const* Parser::parseTopLevelExpression() {
+    ExpressionAST const* expression = parseExpression();
+    if (!expression) {
+        return nullptr;
+    }
+
+    // Make an anonymous prototype
+    PrototypeAST const* prototype = new PrototypeAST("", std::vector<std::string>());
+    return new FunctionAST(prototype, expression);
+}

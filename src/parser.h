@@ -52,6 +52,11 @@ public:
 
     ExpressionAST const* parseExpression();
     ExpressionAST const* parseBinaryOpRHS(int expressionPrecedence, ExpressionAST const* lhs);
+
+    PrototypeAST const* parsePrototype();
+    FunctionAST const* parseDefinition();
+    PrototypeAST const* parseExtern();
+    FunctionAST const* parseTopLevelExpression();
 };
 
 #endif
