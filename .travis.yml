@@ -12,6 +12,7 @@ before_install:
   - if [ "$CXX" = "clang++" ]; then export CXX="clang++-3.5" CC="clang-3.5"; fi
   - if [ "$CXX" = "g++" ]; then  sudo apt-get install -y gcc-4.9 g++-4.9; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+  - sudo mkdir -p /usr/lib/llvm-3.5/share/llvm && sudo ln -s /usr/share/llvm-3.5/cmake /usr/lib/llvm-3.5/share/llvm/cmake
   - cd ~ && wget https://googletest.googlecode.com/files/gtest-1.7.0.zip && unzip gtest-1.7.0.zip
   - cd ~/gtest-1.7.0 && cmake . && make
   - cd $TRAVIS_BUILD_DIR
