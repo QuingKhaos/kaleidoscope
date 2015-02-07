@@ -30,7 +30,7 @@ if(GTEST_FOUND)
     )
 
     add_executable(kaleidoscope-test ${SOURCE_TEST_FILES} ${TEST_FILES})
-    target_link_libraries(kaleidoscope-test ${GTEST_BOTH_LIBRARIES})
+    target_link_libraries(kaleidoscope-test ${llvm_libs} ${GTEST_BOTH_LIBRARIES})
 
     GTEST_ADD_TESTS(kaleidoscope-test "" ${TEST_FILES})
 endif()
